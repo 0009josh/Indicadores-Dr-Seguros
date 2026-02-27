@@ -958,22 +958,28 @@
             const view = document.getElementById('view-' + name);
             view.classList.add('active');
 
-            // CHAVE: Cria o iframe DINAMICAMENTE somente agora
-            const wrapper = document.getElementById('iframe-wrapper-' + name);
-            if (!wrapper.querySelector('iframe')) {
-                const config = DASHBOARDS[name];
-                const iframe = document.createElement('iframe');
-                iframe.src = config.url;
-                iframe.allowFullscreen = true;
-                iframe.setAttribute('sandbox', 'allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox');
-                iframe.onload = function() {
-                    hideLoading(name);
-                };
-                wrapper.appendChild(iframe);
+            // Cria o iframe DEPOIS da view estar visível
+            setTimeout(function() {
+                const wrapper = document.getElementById('iframe-wrapper-' + name);
+                if (!wrapper.querySelector('iframe')) {
+                    const config = DASHBOARDS[name];
+                    const iframe = document.createElement('iframe');
+                    iframe.allowFullscreen = true;
+                    iframe.style.width = '100%';
+                    iframe.style.height = '85vh';
+                    iframe.style.border = 'none';
+                    iframe.style.display = 'block';
+                    iframe.onload = function() {
+                        hideLoading(name);
+                    };
+                    wrapper.appendChild(iframe);
+                    // Define o src DEPOIS de inserir no DOM
+                    iframe.src = config.url;
 
-                // Fallback: esconde loading após 12s
-                setTimeout(() => hideLoading(name), 12000);
-            }
+                    // Fallback: esconde loading após 12s
+                    setTimeout(function() { hideLoading(name); }, 12000);
+                }
+            }, 150);
         }
 
         function hideLoading(name) {
