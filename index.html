@@ -878,21 +878,39 @@
                     }
                 }
 
-                closeModal();
-                updateCardStates();
+                // Mostra feedback de sucesso no modal
+                document.getElementById('modalIcon').textContent = '✅';
+                document.getElementById('modalTitle').textContent = 'Acesso liberado!';
+                document.getElementById('modalSubtitle').textContent = 'Clique no relatório para visualizar';
+                document.querySelector('.modal-input').style.display = 'none';
+                document.querySelector('.modal-btn').style.display = 'none';
+                error.classList.remove('show');
 
-                // Redireciona para a home e abre o dashboard normalmente
-                // Isso simula o fluxo que funciona: ir pra home e clicar no card
-                goHome();
+                // Fecha modal e volta pra home após 1 segundo
                 setTimeout(function() {
-                    openDashboard(pendingDashboard);
-                }, 50);
+                    document.querySelector('.modal-input').style.display = '';
+                    document.querySelector('.modal-btn').style.display = '';
+                    closeModal();
+                    updateCardStates();
+                    goHome();
+                }, 1000);
+
             } else {
                 error.classList.add('show');
                 input.value = '';
                 input.focus();
             }
         }
+
+        // Escuta mudanças no hash para abrir dashboards
+        window.addEventListener('hashchange', function() {
+            var hash = window.location.hash;
+            if (hash.indexOf('#dash-') === 0) {
+                var name = hash.replace('#dash-', '');
+                window.location.hash = '';
+                openDashboard(name);
+            }
+        });
 
         function closeModal() {
             document.getElementById('passwordModal').classList.remove('active');
