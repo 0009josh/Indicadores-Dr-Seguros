@@ -614,14 +614,23 @@
 
     <script>
         // ========================================
-        // SENHA DE ACESSO (altere aqui)
+        // SENHA DE ACESSO (hash SHA-256)
         // ========================================
-        const SENHA = 'corretora10';
+        const SENHA_HASH = 'a4c8e0bffcf9f3f84e40c2d01d8fb4b9a8efffc49e8a18bc8ce6e5e75cd5fe3b';
 
-        function doLogin() {
+        async function hashSenha(texto) {
+            const encoder = new TextEncoder();
+            const data = encoder.encode(texto);
+            const buffer = await crypto.subtle.digest('SHA-256', data);
+            const array = Array.from(new Uint8Array(buffer));
+            return array.map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+
+        async function doLogin() {
             const input = document.getElementById('passwordInput');
             const error = document.getElementById('loginError');
-            if (input.value === SENHA) {
+            const inputHash = await hashSenha(input.value);
+            if (inputHash === SENHA_HASH) {
                 sessionStorage.setItem('loggedIn', 'true');
                 document.getElementById('loginScreen').style.display = 'none';
                 document.getElementById('mainApp').classList.add('visible');
