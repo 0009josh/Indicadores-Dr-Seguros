@@ -958,12 +958,16 @@
             const view = document.getElementById('view-' + name);
             view.classList.add('active');
 
-            // Cria o iframe DEPOIS da view estar visível
-            setTimeout(function() {
-                const wrapper = document.getElementById('iframe-wrapper-' + name);
-                if (!wrapper.querySelector('iframe')) {
-                    const config = DASHBOARDS[name];
-                    const iframe = document.createElement('iframe');
+            // Força o browser a renderizar a view antes de criar o iframe
+            var wrapper = document.getElementById('iframe-wrapper-' + name);
+            // Força reflow
+            void wrapper.offsetHeight;
+
+            if (!wrapper.querySelector('iframe')) {
+                // Espera a view estar completamente renderizada
+                setTimeout(function() {
+                    var config = DASHBOARDS[name];
+                    var iframe = document.createElement('iframe');
                     iframe.allowFullscreen = true;
                     iframe.style.width = '100%';
                     iframe.style.height = '85vh';
@@ -972,14 +976,20 @@
                     iframe.onload = function() {
                         hideLoading(name);
                     };
+                    // Insere o iframe no DOM primeiro (sem src)
                     wrapper.appendChild(iframe);
-                    // Define o src DEPOIS de inserir no DOM
-                    iframe.src = config.url;
 
-                    // Fallback: esconde loading após 12s
-                    setTimeout(function() { hideLoading(name); }, 12000);
-                }
-            }, 150);
+                    // Aguarda mais um frame de renderização, depois define o src
+                    requestAnimationFrame(function() {
+                        requestAnimationFrame(function() {
+                            iframe.src = config.url;
+                        });
+                    });
+
+                    // Fallback: esconde loading após 15s
+                    setTimeout(function() { hideLoading(name); }, 15000);
+                }, 500);
+            }
         }
 
         function hideLoading(name) {
