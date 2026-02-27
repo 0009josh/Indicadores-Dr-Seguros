@@ -270,20 +270,6 @@
 
         .card-desc { color: var(--text-secondary); font-size: 0.88rem; line-height: 1.5; }
 
-        .card-lock {
-            position: absolute;
-            top: 2rem;
-            right: 2rem;
-            font-size: 1rem;
-            opacity: 0.5;
-            transition: all 0.3s ease;
-        }
-
-        .card:hover .card-lock { opacity: 0.8; }
-        .card.unlocked .card-lock { display: none; }
-        .card.unlocked .card-arrow { display: block; }
-        .card:not(.unlocked) .card-arrow { display: none; }
-
         .card-arrow {
             position: absolute;
             top: 2rem; right: 2rem;
@@ -293,127 +279,6 @@
         }
 
         .card:hover .card-arrow { color: var(--accent); transform: translateX(4px); }
-
-        /* ===== PASSWORD MODAL ===== */
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(8px);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal-overlay.active {
-            display: flex;
-        }
-
-        .modal-box {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 2.5rem 2rem;
-            width: 100%;
-            max-width: 380px;
-            text-align: center;
-            animation: slideUp 0.3s ease;
-            position: relative;
-        }
-
-        .modal-close {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background: none;
-            border: none;
-            color: var(--text-secondary);
-            font-size: 1.4rem;
-            cursor: pointer;
-            width: 32px;
-            height: 32px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 8px;
-            transition: all 0.2s;
-        }
-
-        .modal-close:hover {
-            background: rgba(255,255,255,0.05);
-            color: var(--text-primary);
-        }
-
-        .modal-icon {
-            width: 56px;
-            height: 56px;
-            border-radius: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.6rem;
-            margin: 0 auto 1.2rem;
-            background: rgba(37,99,235,0.12);
-        }
-
-        .modal-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.3rem;
-            margin-bottom: 0.4rem;
-        }
-
-        .modal-subtitle {
-            color: var(--text-secondary);
-            font-size: 0.85rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .modal-input {
-            width: 100%;
-            padding: 13px 16px;
-            background: var(--bg-primary);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            color: var(--text-primary);
-            font-family: inherit;
-            font-size: 0.95rem;
-            outline: none;
-            transition: border-color 0.25s;
-            margin-bottom: 0.8rem;
-        }
-
-        .modal-input:focus { border-color: var(--accent); }
-        .modal-input::placeholder { color: var(--text-secondary); }
-
-        .modal-btn {
-            width: 100%;
-            padding: 13px;
-            background: var(--accent);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-family: inherit;
-            font-size: 0.95rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.25s, transform 0.15s;
-        }
-
-        .modal-btn:hover { background: var(--accent-light); }
-        .modal-btn:active { transform: scale(0.98); }
-
-        .modal-error {
-            color: #ef4444;
-            font-size: 0.82rem;
-            margin-top: 0.6rem;
-            display: none;
-        }
-
-        .modal-error.show {
-            display: block;
-            animation: shake 0.4s ease;
-        }
 
         /* ===== DASHBOARD VIEW ===== */
         .dashboard-view { display: none; animation: fadeIn 0.4s ease; }
@@ -550,7 +415,6 @@
             .card-title { font-size: 1rem; }
             .card-desc { font-size: 0.82rem; }
             .card-arrow { top: 1.4rem; right: 1.4rem; font-size: 1rem; }
-            .card-lock { top: 1.4rem; right: 1.4rem; }
 
             .status-bar { padding: 0.8rem 1rem; }
             .status-indicator { font-size: 0.75rem; }
@@ -572,8 +436,6 @@
             .login-input { padding: 12px 14px; font-size: 0.9rem; }
             .login-btn { padding: 12px; font-size: 0.95rem; }
 
-            .modal-box { margin: 1rem; padding: 2rem 1.5rem; }
-
             .footer { padding: 1.5rem 1rem; font-size: 0.75rem; }
         }
 
@@ -584,7 +446,6 @@
             .panel-title { font-size: 1.1rem; }
             .iframe-wrapper iframe { height: 55vh; }
             .btn-header { padding: 5px 8px; font-size: 0.72rem; }
-            .modal-box { margin: 0.5rem; padding: 1.5rem 1.2rem; }
         }
     </style>
 </head>
@@ -599,19 +460,6 @@
             <input type="password" class="login-input" id="passwordInput" placeholder="Digite a senha de acesso" onkeydown="if(event.key==='Enter') doLogin()">
             <button class="login-btn" onclick="doLogin()">Entrar</button>
             <p class="login-error" id="loginError">Senha incorreta. Tente novamente.</p>
-        </div>
-    </div>
-
-    <!-- PASSWORD MODAL -->
-    <div class="modal-overlay" id="passwordModal">
-        <div class="modal-box">
-            <button class="modal-close" onclick="closeModal()">&times;</button>
-            <div class="modal-icon" id="modalIcon">🔒</div>
-            <h2 class="modal-title" id="modalTitle">Acesso Restrito</h2>
-            <p class="modal-subtitle" id="modalSubtitle">Digite a senha para acessar este relatório</p>
-            <input type="password" class="modal-input" id="modalPasswordInput" placeholder="Senha do relatório" onkeydown="if(event.key==='Enter') validateDashboardPassword()">
-            <button class="modal-btn" onclick="validateDashboardPassword()">Desbloquear</button>
-            <p class="modal-error" id="modalError">Senha incorreta. Tente novamente.</p>
         </div>
     </div>
 
@@ -637,44 +485,38 @@
                 <p class="home-subtitle">Selecione um relatório para visualizar</p>
             </div>
             <div class="cards-grid">
-                <div class="card" data-dashboard="leads" onclick="requestAccess('leads')">
+                <div class="card" onclick="openDashboard('leads')">
                     <div class="card-icon leads">📊</div>
-                    <div class="card-lock">🔒</div>
                     <div class="card-arrow">→</div>
                     <h3 class="card-title">Indicadores de Leads</h3>
                     <p class="card-desc">Volume, qualidade e conversão dos leads captados.</p>
                 </div>
-                <div class="card" data-dashboard="oportunidades" onclick="requestAccess('oportunidades')">
+                <div class="card" onclick="openDashboard('oportunidades')">
                     <div class="card-icon oportunidades">💼</div>
-                    <div class="card-lock">🔒</div>
                     <div class="card-arrow">→</div>
                     <h3 class="card-title">Indicadores de Oportunidades</h3>
                     <p class="card-desc">Pipeline de negócios e taxa de fechamento.</p>
                 </div>
-                <div class="card" data-dashboard="renovacoes" onclick="requestAccess('renovacoes')">
+                <div class="card" onclick="openDashboard('renovacoes')">
                     <div class="card-icon renovacoes">🔄</div>
-                    <div class="card-lock">🔒</div>
                     <div class="card-arrow">→</div>
                     <h3 class="card-title">Indicadores de Renovações</h3>
                     <p class="card-desc">Desempenho das renovações e retenção de clientes.</p>
                 </div>
-                <div class="card" data-dashboard="implantacao" onclick="requestAccess('implantacao')">
+                <div class="card" onclick="openDashboard('implantacao')">
                     <div class="card-icon implantacao">🚀</div>
-                    <div class="card-lock">🔒</div>
                     <div class="card-arrow">→</div>
                     <h3 class="card-title">Indicadores de Implantação</h3>
                     <p class="card-desc">Processo de implantação e status de ativação.</p>
                 </div>
-                <div class="card" data-dashboard="pesquisas" onclick="requestAccess('pesquisas')">
+                <div class="card" onclick="openDashboard('pesquisas')">
                     <div class="card-icon pesquisas">⭐</div>
-                    <div class="card-lock">🔒</div>
                     <div class="card-arrow">→</div>
                     <h3 class="card-title">Pesquisas e Indicações</h3>
                     <p class="card-desc">Satisfação dos clientes e indicações recebidas.</p>
                 </div>
-                <div class="card" data-dashboard="posvenda" onclick="requestAccess('posvenda')">
+                <div class="card" onclick="openDashboard('posvenda')">
                     <div class="card-icon posvenda">🤝</div>
-                    <div class="card-lock">🔒</div>
                     <div class="card-arrow">→</div>
                     <h3 class="card-title">Indicadores de Pós-Venda</h3>
                     <p class="card-desc">Acompanhamento do atendimento e suporte pós-venda.</p>
@@ -682,7 +524,7 @@
             </div>
         </div>
 
-        <!-- DASHBOARDS (mesma estrutura original com data-src) -->
+        <!-- DASHBOARDS -->
         <div class="dashboard-view" id="view-leads">
             <div class="status-bar"><div class="status-indicator"><div class="status-dot"></div>Dados atualizados em tempo real</div></div>
             <div class="dashboard-container">
@@ -772,51 +614,18 @@
 
     <script>
         // ========================================
-        // CONFIGURAÇÃO DE SENHAS
+        // SENHA DE ACESSO (altere aqui)
         // ========================================
-        var SENHA_LOGIN = 'corretora10';
+        const SENHA = 'corretora10';
 
-        var SENHAS = {
-            leads: 'Seguros9054',
-            oportunidades: 'Seguros9054',
-            renovacoes: 'Renova2323',
-            implantacao: 'Seguros9054',
-            pesquisas: 'Seguros9054',
-            posvenda: 'Seguros9054'
-        };
-
-        var TITULOS = {
-            leads: 'Indicadores de Leads',
-            oportunidades: 'Indicadores de Oportunidades',
-            renovacoes: 'Indicadores de Renovações',
-            implantacao: 'Indicadores de Implantação',
-            pesquisas: 'Pesquisas e Indicações',
-            posvenda: 'Indicadores de Pós-Venda'
-        };
-
-        var ICONES = {
-            leads: '📊',
-            oportunidades: '💼',
-            renovacoes: '🔄',
-            implantacao: '🚀',
-            pesquisas: '⭐',
-            posvenda: '🤝'
-        };
-
-        var pendingDashboard = null;
-
-        // ========================================
-        // LOGIN GERAL
-        // ========================================
         function doLogin() {
-            var input = document.getElementById('passwordInput');
-            var error = document.getElementById('loginError');
-            if (input.value === SENHA_LOGIN) {
+            const input = document.getElementById('passwordInput');
+            const error = document.getElementById('loginError');
+            if (input.value === SENHA) {
                 sessionStorage.setItem('loggedIn', 'true');
                 document.getElementById('loginScreen').style.display = 'none';
                 document.getElementById('mainApp').classList.add('visible');
                 error.classList.remove('show');
-                updateCardStates();
             } else {
                 error.classList.add('show');
                 input.value = '';
@@ -826,10 +635,6 @@
 
         function doLogout() {
             sessionStorage.removeItem('loggedIn');
-            var keys = Object.keys(SENHAS);
-            for (var i = 0; i < keys.length; i++) {
-                sessionStorage.removeItem('unlocked_' + keys[i]);
-            }
             document.getElementById('mainApp').classList.remove('visible');
             document.getElementById('loginScreen').style.display = 'flex';
             document.getElementById('passwordInput').value = '';
@@ -839,137 +644,20 @@
         if (sessionStorage.getItem('loggedIn') === 'true') {
             document.getElementById('loginScreen').style.display = 'none';
             document.getElementById('mainApp').classList.add('visible');
-            updateCardStates();
         }
 
-        // ========================================
-        // ACESSO POR RELATÓRIO
-        // ========================================
-        function requestAccess(name) {
-            if (sessionStorage.getItem('unlocked_' + name) === 'true') {
-                openDashboard(name);
-                return;
-            }
-
-            pendingDashboard = name;
-            document.getElementById('modalIcon').textContent = ICONES[name];
-            document.getElementById('modalTitle').textContent = TITULOS[name];
-            document.getElementById('modalSubtitle').textContent = 'Digite a senha para acessar este relatório';
-            document.getElementById('modalPasswordInput').value = '';
-            document.getElementById('modalError').classList.remove('show');
-            document.getElementById('passwordModal').classList.add('active');
-
-            setTimeout(function() {
-                document.getElementById('modalPasswordInput').focus();
-            }, 100);
-        }
-
-        function validateDashboardPassword() {
-            var input = document.getElementById('modalPasswordInput');
-            var error = document.getElementById('modalError');
-            var senhaCorreta = SENHAS[pendingDashboard];
-
-            if (input.value === senhaCorreta) {
-                // Desbloqueia todos que compartilham a mesma senha
-                var keys = Object.keys(SENHAS);
-                for (var i = 0; i < keys.length; i++) {
-                    if (SENHAS[keys[i]] === senhaCorreta) {
-                        sessionStorage.setItem('unlocked_' + keys[i], 'true');
-                    }
-                }
-
-                // Mostra feedback de sucesso no modal
-                document.getElementById('modalIcon').textContent = '✅';
-                document.getElementById('modalTitle').textContent = 'Acesso liberado!';
-                document.getElementById('modalSubtitle').textContent = 'Clique no relatório para visualizar';
-                document.querySelector('.modal-input').style.display = 'none';
-                document.querySelector('.modal-btn').style.display = 'none';
-                error.classList.remove('show');
-
-                // Fecha modal e volta pra home após 1 segundo
-                setTimeout(function() {
-                    document.querySelector('.modal-input').style.display = '';
-                    document.querySelector('.modal-btn').style.display = '';
-                    closeModal();
-                    updateCardStates();
-                    goHome();
-                }, 1000);
-
-            } else {
-                error.classList.add('show');
-                input.value = '';
-                input.focus();
-            }
-        }
-
-        // Escuta mudanças no hash para abrir dashboards
-        window.addEventListener('hashchange', function() {
-            var hash = window.location.hash;
-            if (hash.indexOf('#dash-') === 0) {
-                var name = hash.replace('#dash-', '');
-                window.location.hash = '';
-                openDashboard(name);
-            }
-        });
-
-        function closeModal() {
-            document.getElementById('passwordModal').classList.remove('active');
-            pendingDashboard = null;
-        }
-
-        // Fecha modal com ESC ou clicando fora
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                var modal = document.getElementById('passwordModal');
-                if (modal && modal.classList.contains('active')) {
-                    closeModal();
-                }
-            }
-        });
-
-        var modalOverlay = document.getElementById('passwordModal');
-        if (modalOverlay) {
-            modalOverlay.addEventListener('click', function(e) {
-                if (e.target === this) closeModal();
-            });
-        }
-
-        // ========================================
-        // VISUAL DOS CARDS
-        // ========================================
-        function updateCardStates() {
-            var cards = document.querySelectorAll('.card[data-dashboard]');
-            for (var i = 0; i < cards.length; i++) {
-                var key = cards[i].getAttribute('data-dashboard');
-                if (key && sessionStorage.getItem('unlocked_' + key) === 'true') {
-                    cards[i].classList.add('unlocked');
-                } else {
-                    cards[i].classList.remove('unlocked');
-                }
-            }
-        }
-
-        // ========================================
-        // NAVEGAÇÃO (idêntica ao original)
-        // ========================================
         function goHome() {
             document.getElementById('homeScreen').style.display = 'block';
-            var views = document.querySelectorAll('.dashboard-view');
-            for (var i = 0; i < views.length; i++) {
-                views[i].classList.remove('active');
-            }
+            document.querySelectorAll('.dashboard-view').forEach(v => v.classList.remove('active'));
         }
 
         function openDashboard(name) {
             document.getElementById('homeScreen').style.display = 'none';
-            var views = document.querySelectorAll('.dashboard-view');
-            for (var i = 0; i < views.length; i++) {
-                views[i].classList.remove('active');
-            }
-            var view = document.getElementById('view-' + name);
+            document.querySelectorAll('.dashboard-view').forEach(v => v.classList.remove('active'));
+            const view = document.getElementById('view-' + name);
             view.classList.add('active');
-            // Lazy load - exatamente como o original
-            var iframe = view.querySelector('iframe');
+            // Lazy load
+            const iframe = view.querySelector('iframe');
             if (iframe && iframe.dataset.src && !iframe.getAttribute('data-loaded')) {
                 iframe.src = iframe.dataset.src;
                 iframe.setAttribute('data-loaded', 'true');
@@ -977,15 +665,12 @@
         }
 
         function hideLoading(name) {
-            var overlay = document.getElementById('loading-' + name);
+            const overlay = document.getElementById('loading-' + name);
             if (overlay) overlay.classList.add('hidden');
         }
 
-        setTimeout(function() {
-            var overlays = document.querySelectorAll('.loading-overlay');
-            for (var i = 0; i < overlays.length; i++) {
-                overlays[i].classList.add('hidden');
-            }
+        setTimeout(() => {
+            document.querySelectorAll('.loading-overlay').forEach(o => o.classList.add('hidden'));
         }, 12000);
     </script>
 </body>
