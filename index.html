@@ -524,7 +524,7 @@
             </div>
         </div>
 
-        <!-- DASHBOARDS -->
+        <!-- DASHBOARDS (links ofuscados - sem URLs visíveis no HTML) -->
         <div class="dashboard-view" id="view-leads">
             <div class="status-bar"><div class="status-indicator"><div class="status-dot"></div>Dados atualizados em tempo real</div></div>
             <div class="dashboard-container">
@@ -534,7 +534,7 @@
                 </div>
                 <div class="iframe-wrapper">
                     <div class="loading-overlay" id="loading-leads"><div class="spinner"></div><div class="loading-text">Carregando relatório...</div></div>
-                    <iframe data-src="https://lookerstudio.google.com/embed/reporting/ed79d207-743e-4ba6-9fa5-15128b6b6c85/page/p_b8rclx4f0d" onload="hideLoading('leads')" allowfullscreen sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>
+                    <iframe data-ref="leads" onload="hideLoading('leads')" allowfullscreen sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>
                 </div>
             </div>
         </div>
@@ -548,7 +548,7 @@
                 </div>
                 <div class="iframe-wrapper">
                     <div class="loading-overlay" id="loading-oportunidades"><div class="spinner"></div><div class="loading-text">Carregando relatório...</div></div>
-                    <iframe data-src="https://lookerstudio.google.com/embed/reporting/d0289c08-ff33-4697-944a-ef26fbe1b859/page/p_88meuldh0d" onload="hideLoading('oportunidades')" allowfullscreen sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>
+                    <iframe data-ref="oportunidades" onload="hideLoading('oportunidades')" allowfullscreen sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>
                 </div>
             </div>
         </div>
@@ -562,7 +562,7 @@
                 </div>
                 <div class="iframe-wrapper">
                     <div class="loading-overlay" id="loading-renovacoes"><div class="spinner"></div><div class="loading-text">Carregando relatório...</div></div>
-                    <iframe data-src="https://lookerstudio.google.com/embed/reporting/1e53a2d7-11d1-4a7f-a077-2caeff4b0228/page/p_4pvq0nyo0d" onload="hideLoading('renovacoes')" allowfullscreen sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>
+                    <iframe data-ref="renovacoes" onload="hideLoading('renovacoes')" allowfullscreen sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>
                 </div>
             </div>
         </div>
@@ -576,7 +576,7 @@
                 </div>
                 <div class="iframe-wrapper">
                     <div class="loading-overlay" id="loading-implantacao"><div class="spinner"></div><div class="loading-text">Carregando relatório...</div></div>
-                    <iframe data-src="https://lookerstudio.google.com/embed/reporting/34c0feed-1b6b-4c4c-8260-7caa1ba22fd9/page/p_00xe69t80d" onload="hideLoading('implantacao')" allowfullscreen sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>
+                    <iframe data-ref="implantacao" onload="hideLoading('implantacao')" allowfullscreen sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>
                 </div>
             </div>
         </div>
@@ -590,7 +590,7 @@
                 </div>
                 <div class="iframe-wrapper">
                     <div class="loading-overlay" id="loading-pesquisas"><div class="spinner"></div><div class="loading-text">Carregando relatório...</div></div>
-                    <iframe data-src="https://lookerstudio.google.com/embed/reporting/134bc250-9022-4ed4-8779-ab5e1b5bb64c/page/ZREpF" onload="hideLoading('pesquisas')" allowfullscreen sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>
+                    <iframe data-ref="pesquisas" onload="hideLoading('pesquisas')" allowfullscreen sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>
                 </div>
             </div>
         </div>
@@ -604,7 +604,7 @@
                 </div>
                 <div class="iframe-wrapper">
                     <div class="loading-overlay" id="loading-posvenda"><div class="spinner"></div><div class="loading-text">Carregando relatório...</div></div>
-                    <iframe data-src="https://lookerstudio.google.com/embed/reporting/cebf818e-bbb8-4f35-b453-a0517c3ea184/page/DAfnF" onload="hideLoading('posvenda')" allowfullscreen sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>
+                    <iframe data-ref="posvenda" onload="hideLoading('posvenda')" allowfullscreen sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>
                 </div>
             </div>
         </div>
@@ -617,6 +617,20 @@
         // SENHA DE ACESSO (hash SHA-256)
         // ========================================
         const SENHA_HASH = 'a4c8e0bffcf9f3f84e40c2d01d8fb4b9a8efffc49e8a18bc8ce6e5e75cd5fe3b';
+
+        // ========================================
+        // LINKS DOS RELATÓRIOS (ofuscados em Base64)
+        // ========================================
+        const _r = {
+            leads: 'aHR0cHM6Ly9sb29rZXJzdHVkaW8uZ29vZ2xlLmNvbS9lbWJlZC9yZXBvcnRpbmcvZWQ3OWQyMDctNzQzZS00YmE2LTlmYTUtMTUxMjhiNmI2Yzg1L3BhZ2UvcF9iOHJjbHg0ZjBk',
+            oportunidades: 'aHR0cHM6Ly9sb29rZXJzdHVkaW8uZ29vZ2xlLmNvbS9lbWJlZC9yZXBvcnRpbmcvZDAyODljMDgtZmYzMy00Njk3LTk0NGEtZWYyNmZiZTFiODU5L3BhZ2UvcF84OG1ldWxkaDBk',
+            renovacoes: 'aHR0cHM6Ly9sb29rZXJzdHVkaW8uZ29vZ2xlLmNvbS9lbWJlZC9yZXBvcnRpbmcvMWU1M2EyZDctMTFkMS00YTdmLWEwNzctMmNhZWZmNGIwMjI4L3BhZ2UvcF80cHZxMG55bzBk',
+            implantacao: 'aHR0cHM6Ly9sb29rZXJzdHVkaW8uZ29vZ2xlLmNvbS9lbWJlZC9yZXBvcnRpbmcvMzRjMGZlZWQtMWI2Yi00YzRjLTgyNjAtN2NhYTFiYTIyZmQ5L3BhZ2UvcF8wMHhlNjl0ODBk',
+            pesquisas: 'aHR0cHM6Ly9sb29rZXJzdHVkaW8uZ29vZ2xlLmNvbS9lbWJlZC9yZXBvcnRpbmcvMTM0YmMyNTAtOTAyMi00ZWQ0LTg3NzktYWI1ZTFiNWJiNjRjL3BhZ2UvWlJFcEY=',
+            posvenda: 'aHR0cHM6Ly9sb29rZXJzdHVkaW8uZ29vZ2xlLmNvbS9lbWJlZC9yZXBvcnRpbmcvY2ViZjgxOGUtYmJiOC00ZjM1LWI0NTMtYTA1MTdjM2VhMTg0L3BhZ2UvREFmbkY='
+        };
+
+        function _d(s) { return atob(s); }
 
         async function hashSenha(texto) {
             const encoder = new TextEncoder();
@@ -665,10 +679,10 @@
             document.querySelectorAll('.dashboard-view').forEach(v => v.classList.remove('active'));
             const view = document.getElementById('view-' + name);
             view.classList.add('active');
-            // Lazy load
+            // Lazy load com link decodificado
             const iframe = view.querySelector('iframe');
-            if (iframe && iframe.dataset.src && !iframe.getAttribute('data-loaded')) {
-                iframe.src = iframe.dataset.src;
+            if (iframe && !iframe.getAttribute('data-loaded') && _r[name]) {
+                iframe.src = _d(_r[name]);
                 iframe.setAttribute('data-loaded', 'true');
             }
         }
