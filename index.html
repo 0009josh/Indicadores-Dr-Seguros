@@ -270,17 +270,6 @@
 
         .card-desc { color: var(--text-secondary); font-size: 0.88rem; line-height: 1.5; }
 
-        .card-arrow {
-            position: absolute;
-            top: 2rem; right: 2rem;
-            color: var(--text-secondary);
-            transition: all 0.3s ease;
-            font-size: 1.2rem;
-        }
-
-        .card:hover .card-arrow { color: var(--accent); transform: translateX(4px); }
-
-        /* ===== LOCK BADGE ===== */
         .card-lock {
             position: absolute;
             top: 2rem;
@@ -291,10 +280,19 @@
         }
 
         .card:hover .card-lock { opacity: 0.8; }
-
         .card.unlocked .card-lock { display: none; }
         .card.unlocked .card-arrow { display: block; }
         .card:not(.unlocked) .card-arrow { display: none; }
+
+        .card-arrow {
+            position: absolute;
+            top: 2rem; right: 2rem;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+        }
+
+        .card:hover .card-arrow { color: var(--accent); transform: translateX(4px); }
 
         /* ===== PASSWORD MODAL ===== */
         .modal-overlay {
@@ -574,10 +572,7 @@
             .login-input { padding: 12px 14px; font-size: 0.9rem; }
             .login-btn { padding: 12px; font-size: 0.95rem; }
 
-            .modal-box {
-                margin: 1rem;
-                padding: 2rem 1.5rem;
-            }
+            .modal-box { margin: 1rem; padding: 2rem 1.5rem; }
 
             .footer { padding: 1.5rem 1rem; font-size: 0.75rem; }
         }
@@ -642,42 +637,42 @@
                 <p class="home-subtitle">Selecione um relatório para visualizar</p>
             </div>
             <div class="cards-grid">
-                <div class="card" onclick="requestAccess('leads')">
+                <div class="card" data-dashboard="leads" onclick="requestAccess('leads')">
                     <div class="card-icon leads">📊</div>
                     <div class="card-lock">🔒</div>
                     <div class="card-arrow">→</div>
                     <h3 class="card-title">Indicadores de Leads</h3>
                     <p class="card-desc">Volume, qualidade e conversão dos leads captados.</p>
                 </div>
-                <div class="card" onclick="requestAccess('oportunidades')">
+                <div class="card" data-dashboard="oportunidades" onclick="requestAccess('oportunidades')">
                     <div class="card-icon oportunidades">💼</div>
                     <div class="card-lock">🔒</div>
                     <div class="card-arrow">→</div>
                     <h3 class="card-title">Indicadores de Oportunidades</h3>
                     <p class="card-desc">Pipeline de negócios e taxa de fechamento.</p>
                 </div>
-                <div class="card" onclick="requestAccess('renovacoes')">
+                <div class="card" data-dashboard="renovacoes" onclick="requestAccess('renovacoes')">
                     <div class="card-icon renovacoes">🔄</div>
                     <div class="card-lock">🔒</div>
                     <div class="card-arrow">→</div>
                     <h3 class="card-title">Indicadores de Renovações</h3>
                     <p class="card-desc">Desempenho das renovações e retenção de clientes.</p>
                 </div>
-                <div class="card" onclick="requestAccess('implantacao')">
+                <div class="card" data-dashboard="implantacao" onclick="requestAccess('implantacao')">
                     <div class="card-icon implantacao">🚀</div>
                     <div class="card-lock">🔒</div>
                     <div class="card-arrow">→</div>
                     <h3 class="card-title">Indicadores de Implantação</h3>
                     <p class="card-desc">Processo de implantação e status de ativação.</p>
                 </div>
-                <div class="card" onclick="requestAccess('pesquisas')">
+                <div class="card" data-dashboard="pesquisas" onclick="requestAccess('pesquisas')">
                     <div class="card-icon pesquisas">⭐</div>
                     <div class="card-lock">🔒</div>
                     <div class="card-arrow">→</div>
                     <h3 class="card-title">Pesquisas e Indicações</h3>
                     <p class="card-desc">Satisfação dos clientes e indicações recebidas.</p>
                 </div>
-                <div class="card" onclick="requestAccess('posvenda')">
+                <div class="card" data-dashboard="posvenda" onclick="requestAccess('posvenda')">
                     <div class="card-icon posvenda">🤝</div>
                     <div class="card-lock">🔒</div>
                     <div class="card-arrow">→</div>
@@ -687,7 +682,7 @@
             </div>
         </div>
 
-        <!-- DASHBOARDS (iframes serão injetados dinamicamente) -->
+        <!-- DASHBOARDS (mesma estrutura original com data-src) -->
         <div class="dashboard-view" id="view-leads">
             <div class="status-bar"><div class="status-indicator"><div class="status-dot"></div>Dados atualizados em tempo real</div></div>
             <div class="dashboard-container">
@@ -695,8 +690,9 @@
                     <h1 class="panel-title">Indicadores de Leads</h1>
                     <p class="panel-desc">Acompanhe o desempenho da captação de leads — volume, qualidade e conversão.</p>
                 </div>
-                <div class="iframe-wrapper" id="iframe-wrapper-leads">
+                <div class="iframe-wrapper">
                     <div class="loading-overlay" id="loading-leads"><div class="spinner"></div><div class="loading-text">Carregando relatório...</div></div>
+                    <iframe data-src="https://lookerstudio.google.com/embed/reporting/ed79d207-743e-4ba6-9fa5-15128b6b6c85/page/p_b8rclx4f0d" onload="hideLoading('leads')" allowfullscreen sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>
                 </div>
             </div>
         </div>
@@ -708,8 +704,9 @@
                     <h1 class="panel-title">Indicadores de Oportunidades</h1>
                     <p class="panel-desc">Acompanhe as oportunidades de negócio, pipeline e taxa de fechamento.</p>
                 </div>
-                <div class="iframe-wrapper" id="iframe-wrapper-oportunidades">
+                <div class="iframe-wrapper">
                     <div class="loading-overlay" id="loading-oportunidades"><div class="spinner"></div><div class="loading-text">Carregando relatório...</div></div>
+                    <iframe data-src="https://lookerstudio.google.com/embed/reporting/d0289c08-ff33-4697-944a-ef26fbe1b859/page/p_88meuldh0d" onload="hideLoading('oportunidades')" allowfullscreen sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>
                 </div>
             </div>
         </div>
@@ -721,8 +718,9 @@
                     <h1 class="panel-title">Indicadores de Renovações</h1>
                     <p class="panel-desc">Acompanhe o desempenho das renovações de contratos e retenção de clientes.</p>
                 </div>
-                <div class="iframe-wrapper" id="iframe-wrapper-renovacoes">
+                <div class="iframe-wrapper">
                     <div class="loading-overlay" id="loading-renovacoes"><div class="spinner"></div><div class="loading-text">Carregando relatório...</div></div>
+                    <iframe data-src="https://lookerstudio.google.com/embed/reporting/1e53a2d7-11d1-4a7f-a077-2caeff4b0228/page/p_4pvq0nyo0d" onload="hideLoading('renovacoes')" allowfullscreen sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>
                 </div>
             </div>
         </div>
@@ -734,8 +732,9 @@
                     <h1 class="panel-title">Indicadores de Implantação</h1>
                     <p class="panel-desc">Acompanhe o processo de implantação dos contratos e status de ativação.</p>
                 </div>
-                <div class="iframe-wrapper" id="iframe-wrapper-implantacao">
+                <div class="iframe-wrapper">
                     <div class="loading-overlay" id="loading-implantacao"><div class="spinner"></div><div class="loading-text">Carregando relatório...</div></div>
+                    <iframe data-src="https://lookerstudio.google.com/embed/reporting/34c0feed-1b6b-4c4c-8260-7caa1ba22fd9/page/p_00xe69t80d" onload="hideLoading('implantacao')" allowfullscreen sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>
                 </div>
             </div>
         </div>
@@ -747,8 +746,9 @@
                     <h1 class="panel-title">Pesquisas e Indicações</h1>
                     <p class="panel-desc">Acompanhe as pesquisas de satisfação e indicações de clientes.</p>
                 </div>
-                <div class="iframe-wrapper" id="iframe-wrapper-pesquisas">
+                <div class="iframe-wrapper">
                     <div class="loading-overlay" id="loading-pesquisas"><div class="spinner"></div><div class="loading-text">Carregando relatório...</div></div>
+                    <iframe data-src="https://lookerstudio.google.com/embed/reporting/134bc250-9022-4ed4-8779-ab5e1b5bb64c/page/ZREpF" onload="hideLoading('pesquisas')" allowfullscreen sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>
                 </div>
             </div>
         </div>
@@ -760,8 +760,9 @@
                     <h1 class="panel-title">Indicadores de Pós-Venda</h1>
                     <p class="panel-desc">Acompanhe o atendimento, suporte e satisfação no pós-venda.</p>
                 </div>
-                <div class="iframe-wrapper" id="iframe-wrapper-posvenda">
+                <div class="iframe-wrapper">
                     <div class="loading-overlay" id="loading-posvenda"><div class="spinner"></div><div class="loading-text">Carregando relatório...</div></div>
+                    <iframe data-src="https://lookerstudio.google.com/embed/reporting/cebf818e-bbb8-4f35-b453-a0517c3ea184/page/DAfnF" onload="hideLoading('posvenda')" allowfullscreen sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>
                 </div>
             </div>
         </div>
@@ -770,59 +771,46 @@
     </div>
 
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
         // ========================================
-        // CONFIGURAÇÃO DE SENHAS E RELATÓRIOS
+        // CONFIGURAÇÃO DE SENHAS
         // ========================================
-        const SENHA_LOGIN = 'corretora10';
+        var SENHA_LOGIN = 'corretora10';
 
-        const DASHBOARDS = {
-            leads: {
-                senha: 'Seguros9054',
-                url: 'https://lookerstudio.google.com/embed/reporting/ed79d207-743e-4ba6-9fa5-15128b6b6c85/page/p_b8rclx4f0d',
-                titulo: 'Indicadores de Leads',
-                icone: '📊'
-            },
-            oportunidades: {
-                senha: 'Seguros9054',
-                url: 'https://lookerstudio.google.com/embed/reporting/d0289c08-ff33-4697-944a-ef26fbe1b859/page/p_88meuldh0d',
-                titulo: 'Indicadores de Oportunidades',
-                icone: '💼'
-            },
-            renovacoes: {
-                senha: 'Renova2323',
-                url: 'https://lookerstudio.google.com/embed/reporting/1e53a2d7-11d1-4a7f-a077-2caeff4b0228/page/p_4pvq0nyo0d',
-                titulo: 'Indicadores de Renovações',
-                icone: '🔄'
-            },
-            implantacao: {
-                senha: 'Seguros9054',
-                url: 'https://lookerstudio.google.com/embed/reporting/34c0feed-1b6b-4c4c-8260-7caa1ba22fd9/page/p_00xe69t80d',
-                titulo: 'Indicadores de Implantação',
-                icone: '🚀'
-            },
-            pesquisas: {
-                senha: 'Seguros9054',
-                url: 'https://lookerstudio.google.com/embed/reporting/134bc250-9022-4ed4-8779-ab5e1b5bb64c/page/ZREpF',
-                titulo: 'Pesquisas e Indicações',
-                icone: '⭐'
-            },
-            posvenda: {
-                senha: 'Seguros9054',
-                url: 'https://lookerstudio.google.com/embed/reporting/cebf818e-bbb8-4f35-b453-a0517c3ea184/page/DAfnF',
-                titulo: 'Indicadores de Pós-Venda',
-                icone: '🤝'
-            }
+        var SENHAS = {
+            leads: 'Seguros9054',
+            oportunidades: 'Seguros9054',
+            renovacoes: 'Renova2323',
+            implantacao: 'Seguros9054',
+            pesquisas: 'Seguros9054',
+            posvenda: 'Seguros9054'
         };
 
-        let pendingDashboard = null;
+        var TITULOS = {
+            leads: 'Indicadores de Leads',
+            oportunidades: 'Indicadores de Oportunidades',
+            renovacoes: 'Indicadores de Renovações',
+            implantacao: 'Indicadores de Implantação',
+            pesquisas: 'Pesquisas e Indicações',
+            posvenda: 'Indicadores de Pós-Venda'
+        };
+
+        var ICONES = {
+            leads: '📊',
+            oportunidades: '💼',
+            renovacoes: '🔄',
+            implantacao: '🚀',
+            pesquisas: '⭐',
+            posvenda: '🤝'
+        };
+
+        var pendingDashboard = null;
 
         // ========================================
         // LOGIN GERAL
         // ========================================
         function doLogin() {
-            const input = document.getElementById('passwordInput');
-            const error = document.getElementById('loginError');
+            var input = document.getElementById('passwordInput');
+            var error = document.getElementById('loginError');
             if (input.value === SENHA_LOGIN) {
                 sessionStorage.setItem('loggedIn', 'true');
                 document.getElementById('loginScreen').style.display = 'none';
@@ -838,18 +826,14 @@
 
         function doLogout() {
             sessionStorage.removeItem('loggedIn');
-            // Limpa desbloqueios
-            Object.keys(DASHBOARDS).forEach(key => {
-                sessionStorage.removeItem('unlocked_' + key);
-            });
+            var keys = Object.keys(SENHAS);
+            for (var i = 0; i < keys.length; i++) {
+                sessionStorage.removeItem('unlocked_' + keys[i]);
+            }
             document.getElementById('mainApp').classList.remove('visible');
             document.getElementById('loginScreen').style.display = 'flex';
             document.getElementById('passwordInput').value = '';
             goHome();
-            // Remove iframes criados
-            document.querySelectorAll('.iframe-wrapper iframe').forEach(iframe => iframe.remove());
-            // Reexibe loading overlays
-            document.querySelectorAll('.loading-overlay').forEach(o => o.classList.remove('hidden'));
         }
 
         if (sessionStorage.getItem('loggedIn') === 'true') {
@@ -859,49 +843,50 @@
         }
 
         // ========================================
-        // CONTROLE DE ACESSO POR RELATÓRIO
+        // ACESSO POR RELATÓRIO
         // ========================================
         function requestAccess(name) {
-            // Se já desbloqueado, abre direto
             if (sessionStorage.getItem('unlocked_' + name) === 'true') {
                 openDashboard(name);
                 return;
             }
 
-            // Abre modal de senha
             pendingDashboard = name;
-            const config = DASHBOARDS[name];
-            document.getElementById('modalIcon').textContent = config.icone;
-            document.getElementById('modalTitle').textContent = config.titulo;
+            document.getElementById('modalIcon').textContent = ICONES[name];
+            document.getElementById('modalTitle').textContent = TITULOS[name];
             document.getElementById('modalSubtitle').textContent = 'Digite a senha para acessar este relatório';
             document.getElementById('modalPasswordInput').value = '';
             document.getElementById('modalError').classList.remove('show');
             document.getElementById('passwordModal').classList.add('active');
 
-            setTimeout(() => {
+            setTimeout(function() {
                 document.getElementById('modalPasswordInput').focus();
             }, 100);
         }
 
         function validateDashboardPassword() {
-            const input = document.getElementById('modalPasswordInput');
-            const error = document.getElementById('modalError');
-            const config = DASHBOARDS[pendingDashboard];
+            var input = document.getElementById('modalPasswordInput');
+            var error = document.getElementById('modalError');
+            var senhaCorreta = SENHAS[pendingDashboard];
 
-            if (input.value === config.senha) {
-                // Marca como desbloqueado na sessão
-                sessionStorage.setItem('unlocked_' + pendingDashboard, 'true');
-                
-                // Também desbloqueia outros dashboards que compartilham a mesma senha
-                Object.keys(DASHBOARDS).forEach(key => {
-                    if (DASHBOARDS[key].senha === config.senha) {
-                        sessionStorage.setItem('unlocked_' + key, 'true');
+            if (input.value === senhaCorreta) {
+                // Desbloqueia todos que compartilham a mesma senha
+                var keys = Object.keys(SENHAS);
+                for (var i = 0; i < keys.length; i++) {
+                    if (SENHAS[keys[i]] === senhaCorreta) {
+                        sessionStorage.setItem('unlocked_' + keys[i], 'true');
                     }
-                });
+                }
 
                 closeModal();
                 updateCardStates();
-                openDashboard(pendingDashboard);
+
+                // Redireciona para a home e abre o dashboard normalmente
+                // Isso simula o fluxo que funciona: ir pra home e clicar no card
+                goHome();
+                setTimeout(function() {
+                    openDashboard(pendingDashboard);
+                }, 50);
             } else {
                 error.classList.add('show');
                 input.value = '';
@@ -914,98 +899,76 @@
             pendingDashboard = null;
         }
 
-        // Fecha modal com ESC
+        // Fecha modal com ESC ou clicando fora
         document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape' && document.getElementById('passwordModal').classList.contains('active')) {
-                closeModal();
+            if (e.key === 'Escape') {
+                var modal = document.getElementById('passwordModal');
+                if (modal && modal.classList.contains('active')) {
+                    closeModal();
+                }
             }
         });
 
-        // Fecha modal clicando fora
-        document.getElementById('passwordModal').addEventListener('click', function(e) {
-            if (e.target === this) closeModal();
-        });
-
-        // ========================================
-        // ATUALIZA VISUAL DOS CARDS (desbloqueado/bloqueado)
-        // ========================================
-        function updateCardStates() {
-            const cards = document.querySelectorAll('.card');
-            const dashboardKeys = Object.keys(DASHBOARDS);
-
-            cards.forEach((card, index) => {
-                const key = dashboardKeys[index];
-                if (key && sessionStorage.getItem('unlocked_' + key) === 'true') {
-                    card.classList.add('unlocked');
-                } else {
-                    card.classList.remove('unlocked');
-                }
+        var modalOverlay = document.getElementById('passwordModal');
+        if (modalOverlay) {
+            modalOverlay.addEventListener('click', function(e) {
+                if (e.target === this) closeModal();
             });
         }
 
         // ========================================
-        // NAVEGAÇÃO
+        // VISUAL DOS CARDS
+        // ========================================
+        function updateCardStates() {
+            var cards = document.querySelectorAll('.card[data-dashboard]');
+            for (var i = 0; i < cards.length; i++) {
+                var key = cards[i].getAttribute('data-dashboard');
+                if (key && sessionStorage.getItem('unlocked_' + key) === 'true') {
+                    cards[i].classList.add('unlocked');
+                } else {
+                    cards[i].classList.remove('unlocked');
+                }
+            }
+        }
+
+        // ========================================
+        // NAVEGAÇÃO (idêntica ao original)
         // ========================================
         function goHome() {
             document.getElementById('homeScreen').style.display = 'block';
-            document.querySelectorAll('.dashboard-view').forEach(v => v.classList.remove('active'));
+            var views = document.querySelectorAll('.dashboard-view');
+            for (var i = 0; i < views.length; i++) {
+                views[i].classList.remove('active');
+            }
         }
 
         function openDashboard(name) {
             document.getElementById('homeScreen').style.display = 'none';
-            document.querySelectorAll('.dashboard-view').forEach(v => v.classList.remove('active'));
-
-            const view = document.getElementById('view-' + name);
+            var views = document.querySelectorAll('.dashboard-view');
+            for (var i = 0; i < views.length; i++) {
+                views[i].classList.remove('active');
+            }
+            var view = document.getElementById('view-' + name);
             view.classList.add('active');
-
-            // Força o browser a renderizar a view antes de criar o iframe
-            var wrapper = document.getElementById('iframe-wrapper-' + name);
-            // Força reflow
-            void wrapper.offsetHeight;
-
-            if (!wrapper.querySelector('iframe')) {
-                // Espera a view estar completamente renderizada
-                setTimeout(function() {
-                    var config = DASHBOARDS[name];
-                    var iframe = document.createElement('iframe');
-                    iframe.allowFullscreen = true;
-                    iframe.style.width = '100%';
-                    iframe.style.height = '85vh';
-                    iframe.style.border = 'none';
-                    iframe.style.display = 'block';
-                    iframe.onload = function() {
-                        hideLoading(name);
-                    };
-                    // Insere o iframe no DOM primeiro (sem src)
-                    wrapper.appendChild(iframe);
-
-                    // Aguarda mais um frame de renderização, depois define o src
-                    requestAnimationFrame(function() {
-                        requestAnimationFrame(function() {
-                            iframe.src = config.url;
-                        });
-                    });
-
-                    // Fallback: esconde loading após 15s
-                    setTimeout(function() { hideLoading(name); }, 15000);
-                }, 500);
+            // Lazy load - exatamente como o original
+            var iframe = view.querySelector('iframe');
+            if (iframe && iframe.dataset.src && !iframe.getAttribute('data-loaded')) {
+                iframe.src = iframe.dataset.src;
+                iframe.setAttribute('data-loaded', 'true');
             }
         }
 
         function hideLoading(name) {
-            const overlay = document.getElementById('loading-' + name);
+            var overlay = document.getElementById('loading-' + name);
             if (overlay) overlay.classList.add('hidden');
         }
 
-        // Expor funções para onclick inline
-        window.doLogin = doLogin;
-        window.doLogout = doLogout;
-        window.goHome = goHome;
-        window.requestAccess = requestAccess;
-        window.validateDashboardPassword = validateDashboardPassword;
-        window.closeModal = closeModal;
-
-    }); // fim DOMContentLoaded
+        setTimeout(function() {
+            var overlays = document.querySelectorAll('.loading-overlay');
+            for (var i = 0; i < overlays.length; i++) {
+                overlays[i].classList.add('hidden');
+            }
+        }, 12000);
     </script>
 </body>
 </html>
