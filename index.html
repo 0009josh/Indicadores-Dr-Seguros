@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doutor Seguros — Dashboards</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0f1a;
+            --bg-card: #111827;
+            --bg-card-hover: #1a2235;
+            --accent: #2563eb;
+            --accent-light: #3b82f6;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --border: #1e293b;
+            --green: #10b981;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+
+        /* ===== LOGIN SCREEN ===== */
+        .login-screen {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(ellipse at 30% 20%, rgba(37,99,235,0.15) 0%, transparent 50%),
+                        radial-gradient(ellipse at 70% 80%, rgba(16,185,129,0.08) 0%, transparent 50%),
+                        var(--bg-primary);
+        }
+
+        .login-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 3rem 2.5rem;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            animation: slideUp 0.5s ease;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .login-logo {
+            width: 80px;
+            height: 80px;
+            border-radius: 18px;
+            margin: 0 auto 1.5rem;
+            overflow: hidden;
+        }
+
+        .login-logo img { width: 100%; height: 100%; object-fit: cover; }
+
+        .login-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            margin-bottom: 0.4rem;
+        }
+
+        .login-subtitle {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+        }
+
+        .login-input {
+            width: 100%;
+            padding: 14px 18px;
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.25s;
+            margin-bottom: 1rem;
+        }
+
+        .login-input:focus { border-color: var(--accent); }
+        .login-input::placeholder { color: var(--text-secondary); }
+
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.25s, transform 0.15s;
+        }
+
+        .login-btn:hover { background: var(--accent-light); }
+        .login-btn:active { transform: scale(0.98); }
+
+        .login-error {
+            color: #ef4444;
+            font-size: 0.85rem;
+            margin-top: 0.8rem;
+            display: none;
+        }
+
+        .login-error.show {
+            display: block;
+            animation: shake 0.4s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-6px); }
+            75% { transform: translateX(6px); }
+        }
+
+        /* ===== MAIN APP ===== */
+        .app { display: none; }
+        .app.visible { display: block; }
+
+        /* ===== HEADER ===== */
+        .header {
+            background: linear-gradient(135deg, #0a0f1a 0%, #131b2e 100%);
+            border-bottom: 1px solid var(--border);
+            padding: 0 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(12px);
+        }
+
+        .header-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 70px;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            cursor: pointer;
+        }
+
+        .logo-icon { width: 42px; height: 42px; border-radius: 10px; overflow: hidden; }
+        .logo-icon img { width: 100%; height: 100%; object-fit: cover; }
+
+        .logo-text { font-weight: 700; font-size: 1.2rem; letter-spacing: -0.02em; }
+        .logo-text span { color: var(--accent-light); }
+
+        .header-right { display: flex; align-items: center; gap: 12px; }
+
+        .btn-header {
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.25s ease;
+            border: 1px solid var(--border);
+            background: none;
+            font-family: inherit;
+        }
+
+        .btn-header:hover {
+            color: var(--text-primary);
+            border-color: var(--accent);
+            background: rgba(37,99,235,0.1);
+        }
+
+        .btn-header.logout:hover {
+            color: #ef4444;
+            border-color: #ef4444;
+            background: rgba(239,68,68,0.1);
+        }
+
+        /* ===== HOME SCREEN ===== */
+        .home-screen {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .home-header { text-align: center; margin-bottom: 3rem; }
+
+        .home-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .home-subtitle { color: var(--text-secondary); font-size: 1rem; }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: var(--accent);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            border-color: var(--accent);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(37,99,235,0.15);
+        }
+
+        .card:hover::before { transform: scaleX(1); }
+
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .card-icon.leads { background: rgba(59,130,246,0.15); }
+        .card-icon.oportunidades { background: rgba(16,185,129,0.15); }
+        .card-icon.renovacoes { background: rgba(245,158,11,0.15); }
+        .card-icon.implantacao { background: rgba(139,92,246,0.15); }
+        .card-icon.pesquisas { background: rgba(236,72,153,0.15); }
+        .card-icon.posvenda { background: rgba(251,146,60,0.15); }
+
+        .card-title { font-weight: 700; font-size: 1.1rem; margin-bottom: 0.5rem; }
+
+        .card-desc { color: var(--text-secondary); font-size: 0.88rem; line-height: 1.5; }
+
+        .card-arrow {
+            position: absolute;
+            top: 2rem; right: 2rem;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+        }
+
+        .card:hover .card-arrow { color: var(--accent); transform: translateX(4px); }
+
+        /* ===== DASHBOARD VIEW ===== */
+        .dashboard-view { display: none; animation: fadeIn 0.4s ease; }
+        .dashboard-view.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .status-bar {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+        }
+
+        .status-dot {
+            width: 8px; height: 8px;
+            background: var(--green);
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+        .dashboard-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem 3rem;
+        }
+
+        .panel-header { margin-bottom: 1.2rem; }
+
+        .panel-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.3rem;
+        }
+
+        .panel-desc { color: var(--text-secondary); font-size: 0.92rem; }
+
+        .iframe-wrapper {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .iframe-wrapper iframe { width: 100%; height: 85vh; border: none; display: block; }
+
+        .loading-overlay {
+            position: absolute; inset: 0;
+            background: var(--bg-card);
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            gap: 16px; z-index: 10;
+            transition: opacity 0.5s ease;
+        }
+
+        .loading-overlay.hidden { opacity: 0; pointer-events: none; }
+
+        .spinner {
+            width: 36px; height: 36px;
+            border: 3px solid var(--border);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .loading-text { color: var(--text-secondary); font-size: 0.88rem; }
+
+        .footer {
+            text-align: center; padding: 2rem;
+            color: var(--text-secondary); font-size: 0.8rem;
+            border-top: 1px solid var(--border); margin-top: 2rem;
+        }
+
+        /* ===== TABLET ===== */
+        @media (max-width: 1024px) {
+            .cards-grid { grid-template-columns: repeat(2, 1fr); }
+            .iframe-wrapper iframe { height: 75vh; }
+        }
+
+        /* ===== MOBILE ===== */
+        @media (max-width: 768px) {
+            .header { padding: 0 0.8rem; }
+            .header-inner {
+                height: auto;
+                padding: 0.7rem 0;
+                gap: 8px;
+            }
+            .logo-icon { width: 34px; height: 34px; border-radius: 8px; }
+            .logo-text { font-size: 1rem; }
+            .header-right { gap: 6px; }
+            .btn-header {
+                padding: 6px 10px;
+                font-size: 0.78rem;
+            }
+
+            .home-screen { padding: 1.5rem 1rem; }
+            .home-header { margin-bottom: 1.8rem; }
+            .home-title { font-size: 1.5rem; }
+            .home-subtitle { font-size: 0.9rem; }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+                gap: 0.8rem;
+                max-width: 100%;
+            }
+            .card {
+                padding: 1.4rem;
+                border-radius: 12px;
+            }
+            .card-icon {
+                width: 42px; height: 42px;
+                font-size: 1.3rem;
+                margin-bottom: 0.8rem;
+                border-radius: 10px;
+            }
+            .card-title { font-size: 1rem; }
+            .card-desc { font-size: 0.82rem; }
+            .card-arrow { top: 1.4rem; right: 1.4rem; font-size: 1rem; }
+
+            .status-bar { padding: 0.8rem 1rem; }
+            .status-indicator { font-size: 0.75rem; }
+            .dashboard-container { padding: 0 0.8rem 2rem; }
+            .panel-header { margin-bottom: 0.8rem; }
+            .panel-title { font-size: 1.2rem; }
+            .panel-desc { font-size: 0.82rem; }
+            .iframe-wrapper { border-radius: 12px; }
+            .iframe-wrapper iframe { height: 65vh; }
+
+            .login-box {
+                margin: 1rem;
+                padding: 2rem 1.5rem;
+                border-radius: 16px;
+            }
+            .login-logo { width: 65px; height: 65px; border-radius: 14px; }
+            .login-title { font-size: 1.4rem; }
+            .login-subtitle { font-size: 0.85rem; margin-bottom: 1.5rem; }
+            .login-input { padding: 12px 14px; font-size: 0.9rem; }
+            .login-btn { padding: 12px; font-size: 0.95rem; }
+
+            .footer { padding: 1.5rem 1rem; font-size: 0.75rem; }
+        }
+
+        /* ===== MOBILE PEQUENO ===== */
+        @media (max-width: 380px) {
+            .home-title { font-size: 1.3rem; }
+            .login-box { margin: 0.5rem; padding: 1.5rem 1.2rem; }
+            .panel-title { font-size: 1.1rem; }
+            .iframe-wrapper iframe { height: 55vh; }
+            .btn-header { padding: 5px 8px; font-size: 0.72rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- LOGIN -->
+    <div class="login-screen" id="loginScreen">
+        <div class="login-box">
+            <div class="login-logo"><img src="logo.jpg" alt="Doutor Seguros"></div>
+            <h1 class="login-title">Doutor Seguros</h1>
+            <p class="login-subtitle">Painel de Indicadores</p>
+            <input type="password" class="login-input" id="passwordInput" placeholder="Digite a senha de acesso" onkeydown="if(event.key==='Enter') doLogin()">
+            <button class="login-btn" onclick="doLogin()">Entrar</button>
+            <p class="login-error" id="loginError">Senha incorreta. Tente novamente.</p>
+        </div>
+    </div>
+
+    <!-- APP -->
+    <div class="app" id="mainApp">
+        <header class="header">
+            <div class="header-inner">
+                <div class="logo-area" onclick="goHome()">
+                    <div class="logo-icon"><img src="logo.jpg" alt="Doutor Seguros"></div>
+                    <div class="logo-text">Doutor <span>Seguros</span></div>
+                </div>
+                <div class="header-right">
+                    <button class="btn-header" onclick="goHome()">← Início</button>
+                    <button class="btn-header logout" onclick="doLogout()">Sair</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- HOME -->
+        <div class="home-screen" id="homeScreen">
+            <div class="home-header">
+                <h1 class="home-title">Painel de Indicadores</h1>
+                <p class="home-subtitle">Selecione um relatório para visualizar</p>
+            </div>
+            <div class="cards-grid">
+                <div class="card" onclick="openDashboard('leads')">
+                    <div class="card-icon leads">📊</div>
+                    <div class="card-arrow">→</div>
+                    <h3 class="card-title">Indicadores de Leads</h3>
+                    <p class="card-desc">Volume, qualidade e conversão dos leads captados.</p>
+                </div>
+                <div class="card" onclick="openDashboard('oportunidades')">
+                    <div class="card-icon oportunidades">💼</div>
+                    <div class="card-arrow">→</div>
+                    <h3 class="card-title">Indicadores de Oportunidades</h3>
+                    <p class="card-desc">Pipeline de negócios e taxa de fechamento.</p>
+                </div>
+                <div class="card" onclick="openDashboard('renovacoes')">
+                    <div class="card-icon renovacoes">🔄</div>
+                    <div class="card-arrow">→</div>
+                    <h3 class="card-title">Indicadores de Renovações</h3>
+                    <p class="card-desc">Desempenho das renovações e retenção de clientes.</p>
+                </div>
+                <div class="card" onclick="openDashboard('implantacao')">
+                    <div class="card-icon implantacao">🚀</div>
+                    <div class="card-arrow">→</div>
+                    <h3 class="card-title">Indicadores de Implantação</h3>
+                    <p class="card-desc">Processo de implantação e status de ativação.</p>
+                </div>
+                <div class="card" onclick="openDashboard('pesquisas')">
+                    <div class="card-icon pesquisas">⭐</div>
+                    <div class="card-arrow">→</div>
+                    <h3 class="card-title">Pesquisas e Indicações</h3>
+                    <p class="card-desc">Satisfação dos clientes e indicações recebidas.</p>
+                </div>
+                <div class="card" onclick="openDashboard('posvenda')">
+                    <div class="card-icon posvenda">🤝</div>
+                    <div class="card-arrow">→</div>
+                    <h3 class="card-title">Indicadores de Pós-Venda</h3>
+                    <p class="card-desc">Acompanhamento do atendimento e suporte pós-venda.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- DASHBOARDS -->
+        <div class="dashboard-view" id="view-leads">
+            <div class="status-bar"><div class="status-indicator"><div class="status-dot"></div>Dados atualizados em tempo real</div></div>
+            <div class="dashboard-container">
+                <div class="panel-header">
+                    <h1 class="panel-title">Indicadores de Leads</h1>
+                    <p class="panel-desc">Acompanhe o desempenho da captação de leads — volume, qualidade e conversão.</p>
+                </div>
+                <div class="iframe-wrapper">
+                    <div class="loading-overlay" id="loading-leads"><div class="spinner"></div><div class="loading-text">Carregando relatório...</div></div>
+                    <iframe data-src="https://lookerstudio.google.com/embed/reporting/ed79d207-743e-4ba6-9fa5-15128b6b6c85/page/p_b8rclx4f0d" onload="hideLoading('leads')" allowfullscreen sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>
+                </div>
+            </div>
+        </div>
+
+        <div class="dashboard-view" id="view-oportunidades">
+            <div class="status-bar"><div class="status-indicator"><div class="status-dot"></div>Dados atualizados em tempo real</div></div>
+            <div class="dashboard-container">
+                <div class="panel-header">
+                    <h1 class="panel-title">Indicadores de Oportunidades</h1>
+                    <p class="panel-desc">Acompanhe as oportunidades de negócio, pipeline e taxa de fechamento.</p>
+                </div>
+                <div class="iframe-wrapper">
+                    <div class="loading-overlay" id="loading-oportunidades"><div class="spinner"></div><div class="loading-text">Carregando relatório...</div></div>
+                    <iframe data-src="https://lookerstudio.google.com/embed/reporting/d0289c08-ff33-4697-944a-ef26fbe1b859/page/p_88meuldh0d" onload="hideLoading('oportunidades')" allowfullscreen sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>
+                </div>
+            </div>
+        </div>
+
+        <div class="dashboard-view" id="view-renovacoes">
+            <div class="status-bar"><div class="status-indicator"><div class="status-dot"></div>Dados atualizados em tempo real</div></div>
+            <div class="dashboard-container">
+                <div class="panel-header">
+                    <h1 class="panel-title">Indicadores de Renovações</h1>
+                    <p class="panel-desc">Acompanhe o desempenho das renovações de contratos e retenção de clientes.</p>
+                </div>
+                <div class="iframe-wrapper">
+                    <div class="loading-overlay" id="loading-renovacoes"><div class="spinner"></div><div class="loading-text">Carregando relatório...</div></div>
+                    <iframe data-src="https://lookerstudio.google.com/embed/reporting/1e53a2d7-11d1-4a7f-a077-2caeff4b0228/page/p_4pvq0nyo0d" onload="hideLoading('renovacoes')" allowfullscreen sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>
+                </div>
+            </div>
+        </div>
+
+        <div class="dashboard-view" id="view-implantacao">
+            <div class="status-bar"><div class="status-indicator"><div class="status-dot"></div>Dados atualizados em tempo real</div></div>
+            <div class="dashboard-container">
+                <div class="panel-header">
+                    <h1 class="panel-title">Indicadores de Implantação</h1>
+                    <p class="panel-desc">Acompanhe o processo de implantação dos contratos e status de ativação.</p>
+                </div>
+                <div class="iframe-wrapper">
+                    <div class="loading-overlay" id="loading-implantacao"><div class="spinner"></div><div class="loading-text">Carregando relatório...</div></div>
+                    <iframe data-src="https://lookerstudio.google.com/embed/reporting/34c0feed-1b6b-4c4c-8260-7caa1ba22fd9/page/p_00xe69t80d" onload="hideLoading('implantacao')" allowfullscreen sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>
+                </div>
+            </div>
+        </div>
+
+        <div class="dashboard-view" id="view-pesquisas">
+            <div class="status-bar"><div class="status-indicator"><div class="status-dot"></div>Dados atualizados em tempo real</div></div>
+            <div class="dashboard-container">
+                <div class="panel-header">
+                    <h1 class="panel-title">Pesquisas e Indicações</h1>
+                    <p class="panel-desc">Acompanhe as pesquisas de satisfação e indicações de clientes.</p>
+                </div>
+                <div class="iframe-wrapper">
+                    <div class="loading-overlay" id="loading-pesquisas"><div class="spinner"></div><div class="loading-text">Carregando relatório...</div></div>
+                    <iframe data-src="https://lookerstudio.google.com/embed/reporting/134bc250-9022-4ed4-8779-ab5e1b5bb64c/page/ZREpF" onload="hideLoading('pesquisas')" allowfullscreen sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>
+                </div>
+            </div>
+        </div>
+
+        <div class="dashboard-view" id="view-posvenda">
+            <div class="status-bar"><div class="status-indicator"><div class="status-dot"></div>Dados atualizados em tempo real</div></div>
+            <div class="dashboard-container">
+                <div class="panel-header">
+                    <h1 class="panel-title">Indicadores de Pós-Venda</h1>
+                    <p class="panel-desc">Acompanhe o atendimento, suporte e satisfação no pós-venda.</p>
+                </div>
+                <div class="iframe-wrapper">
+                    <div class="loading-overlay" id="loading-posvenda"><div class="spinner"></div><div class="loading-text">Carregando relatório...</div></div>
+                    <iframe data-src="https://lookerstudio.google.com/embed/reporting/cebf818e-bbb8-4f35-b453-a0517c3ea184/page/DAfnF" onload="hideLoading('posvenda')" allowfullscreen sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>
+                </div>
+            </div>
+        </div>
+
+        <footer class="footer">Doutor Seguros &copy; 2025 — Painel de Indicadores</footer>
+    </div>
+
+    <script>
+        // ========================================
+        // SENHA DE ACESSO (altere aqui)
+        // ========================================
+        const SENHA = 'corretora10';
+
+        function doLogin() {
+            const input = document.getElementById('passwordInput');
+            const error = document.getElementById('loginError');
+            if (input.value === SENHA) {
+                sessionStorage.setItem('loggedIn', 'true');
+                document.getElementById('loginScreen').style.display = 'none';
+                document.getElementById('mainApp').classList.add('visible');
+                error.classList.remove('show');
+            } else {
+                error.classList.add('show');
+                input.value = '';
+                input.focus();
+            }
+        }
+
+        function doLogout() {
+            sessionStorage.removeItem('loggedIn');
+            document.getElementById('mainApp').classList.remove('visible');
+            document.getElementById('loginScreen').style.display = 'flex';
+            document.getElementById('passwordInput').value = '';
+            goHome();
+        }
+
+        if (sessionStorage.getItem('loggedIn') === 'true') {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('mainApp').classList.add('visible');
+        }
+
+        function goHome() {
+            document.getElementById('homeScreen').style.display = 'block';
+            document.querySelectorAll('.dashboard-view').forEach(v => v.classList.remove('active'));
+        }
+
+        function openDashboard(name) {
+            document.getElementById('homeScreen').style.display = 'none';
+            document.querySelectorAll('.dashboard-view').forEach(v => v.classList.remove('active'));
+            const view = document.getElementById('view-' + name);
+            view.classList.add('active');
+            // Lazy load
+            const iframe = view.querySelector('iframe');
+            if (iframe && iframe.dataset.src && !iframe.getAttribute('data-loaded')) {
+                iframe.src = iframe.dataset.src;
+                iframe.setAttribute('data-loaded', 'true');
+            }
+        }
+
+        function hideLoading(name) {
+            const overlay = document.getElementById('loading-' + name);
+            if (overlay) overlay.classList.add('hidden');
+        }
+
+        setTimeout(() => {
+            document.querySelectorAll('.loading-overlay').forEach(o => o.classList.add('hidden'));
+        }, 12000);
+    </script>
+</body>
+</html>
